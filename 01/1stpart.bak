@@ -1,0 +1,36 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	r := readStream()
+	var amt int
+
+	for i, v := range r {
+		if i > 0 {
+			if isIncreased(r[i-1], v) {
+				amt += 1
+			}
+		}
+	}
+
+	fmt.Println(amt)
+}
+
+func isIncreased(a, b int) bool {
+	return a < b
+}
+
+func readStream() (r []int) {
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		i, _ := strconv.Atoi(s.Text())
+		r = append(r, i)
+	}
+	return
+}

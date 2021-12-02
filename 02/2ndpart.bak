@@ -1,0 +1,42 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
+)
+
+func main() {
+	r := readStream()
+	var horizontal, depth, aim int
+
+	splitAndCalc(&horizontal, &depth, &aim, r)
+
+	fmt.Printf("h: %d, d: %d, a: %d, res: %d", horizontal, depth, aim, horizontal*depth)
+}
+
+func splitAndCalc(a, b, c *int, src []string) {
+	for _, v := range src {
+		x := strings.Split(v, " ")
+		n, _ := strconv.Atoi(x[1])
+		switch x[0] {
+		case "forward":
+			*a += n
+			*b += (*c) * n
+		case "up":
+			*c -= n
+		case "down":
+			*c += n
+		}
+	}
+}
+
+func readStream() (r []string) {
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		r = append(r, s.Text())
+	}
+	return
+}

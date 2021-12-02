@@ -1,0 +1,49 @@
+package main
+
+import (
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+)
+
+func main() {
+	r := readStream()
+	var amt int
+
+	r = threeMeasurementSlidingWindow(r)
+	for i, v := range r {
+		if i > 0 {
+			if isIncreased(r[i-1], v) {
+				amt += 1
+			}
+		}
+	}
+
+	fmt.Println(amt)
+}
+
+func isIncreased(a, b int) bool {
+	return a < b
+}
+
+func threeMeasurementSlidingWindow(r []int) []int {
+	x := make([]int, len(r)-2)
+
+	for i, v := range r {
+		if i == len(r)-2 {
+			break
+		}
+		x[i] = v + r[i+1] + r[i+2]
+	}
+	return x
+}
+
+func readStream() (r []int) {
+	s := bufio.NewScanner(os.Stdin)
+	for s.Scan() {
+		i, _ := strconv.Atoi(s.Text())
+		r = append(r, i)
+	}
+	return
+}
